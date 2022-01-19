@@ -3,7 +3,7 @@ This repository contains a very basic demo of the [Shlyuz](https://github.com/sh
 
 It demonstrates how a message (seen below) is treated with regards to encryption and frames.
 
-```json
+```python
 {
   "command": "shell_exec",
   "args": "cmd.exe /c calc.exe",
