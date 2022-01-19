@@ -46,9 +46,9 @@ def cook_transmit_frame(teamserver, data):
     for chunk_index in range(len(encrypted_instruction_data)):
         frame_chunk = {
                 "frame_id": chunk_index, 
-                "data": encrypted_instruction_data[chunk_index],
-                "chunk_len": len(encrypted_instruction_data)
+                "data": encrypted_instruction_data[chunk_index]
         }
+        frame_chunk["chunk_len"] = len(str(frame_chunk['data']))
         data_frames.append(frame_chunk)
     teamserver.logging.log(f"Encrypted data_frames frames: {data_frames}", level="debug", source="sender")
 
@@ -75,7 +75,7 @@ def cook_transmit_frame(teamserver, data):
     # Encrypt the data using our private key and the public key of the recipient
     transmit_frames = lib.crypto.asymmetric.encrypt(frame_box, enveloped_frames)
 
-    teamserver.logging.log(f"Enveloped data: {transmit_frames}", level="debug", source="sender")
+    teamserver.logging.log(f"Enveloped data: {transmit_frames}\nLength: {len(transmit_frames)}", level="debug", source="sender")
     return transmit_frames
 
 
@@ -129,7 +129,7 @@ def uncook_transmit_frame(teamserver, frame):
     decrypted_data = lib.crypto.rc6.decrypt(rc6_key, data_list)
     # Reconstruct the instruction frame
     instruction_frame = ast.literal_eval(decrypted_data.decode('utf-8'))
-    teamserver.logging.log(f"Decrypted instruction frame: {instruction_frame}", level="debug", source="recipient")
+    teamserver.logging.log(f"Decrypted instruction frame: {instruction_frame}", level="info", source="recipient")
 
     return decrypted_data
 
@@ -139,7 +139,7 @@ message = {'command': 'shell_exec',
            'transaction_id': uuid.uuid4().hex,
            'date': time.strftime('%Y/%m/%d %H:%M:%S', time.gmtime())
            }
-teamserver.logging.log(f"Initial instruction frame: {message}", level="debug", source="init")
+teamserver.logging.log(f"Initial instruction frame: {message}", level="info", source="init")
 
 # transmit_frame would represent the frame sourced from the sender, and relayed via a transport
 transmit_frame = cook_transmit_frame(teamserver, str(message))
