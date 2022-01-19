@@ -4,10 +4,11 @@ This repository contains a very basic demo of the [Shlyuz](https://github.com/sh
 It demonstrates how a message (seen below) is treated with regards to encryption and frames.
 
 ```json
-{'command': 'shell_exec',
-            'args': 'cmd.exe /c calc.exe',
-            'transaction_id': uuid.uuid4().hex,
-            'date': time.strftime('%Y/%m/%d %H:%M:%S', time.gmtime())
+{
+  "command": "shell_exec",
+  "args": "cmd.exe /c calc.exe",
+  "transaction_id": uuid.uuid4().hex,
+  "date": time.strftime("%Y/%m/%d %H:%M:%S", time.gmtime())
 }
 ```
 
